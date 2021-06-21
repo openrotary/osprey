@@ -1,0 +1,22 @@
+{
+  "name": "osprey",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "rollup -c rollup.config.js -w"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "uid": "^2.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.12.9",
+    "nodemon": "^2.0.7",
+    "rollup": "^2.52.1",
+    "rollup-plugin-dts": "^3.0.2",
+    "rollup-plugin-esbuild": "^4.5.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.3.4"
+  }
+}
