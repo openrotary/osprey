@@ -1,0 +1,11 @@
+{
+  "MyElement": {
+    "description": "Auto imported from components/MyElement/index.vue"
+  },
+  "MyElementElementsLine": {
+    "description": "Auto imported from components/MyElement/elements/Line.vue"
+  },
+  "MyElementElementsPoint": {
+    "description": "Auto imported from components/MyElement/elements/Point.vue"
+  }
+}

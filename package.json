@@ -1,7 +1,7 @@
 {
   "name": "osprey",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/osprey.js",
   "license": "MIT",
   "scripts": {
     "dev": "rollup -c rollup.config.js -w"

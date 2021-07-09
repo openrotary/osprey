@@ -1,12 +1,12 @@
 import { uid } from "uid"
 
 export default class Point {
-    x: number
-    y: number
+    position: number[]
     mid: string
-    constructor({ x, y, mid = null }) {
-        this.x = x
-        this.y = y
+    type: 0
+    constructor({ position, mid = null }) {
+        this.position = position
+        this.type = 0
         this.mid = mid || uid()
     }
 }
