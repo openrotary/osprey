@@ -8,10 +8,10 @@
         markerWidth="6"
         markerHeight="6"
         refX="-40"
-        refY="16"
+        refY="20"
         orient="auto"
       >
-        <path d="M40,0L0,20L40,40L40,0 z" fill="#000"></path>
+        <path d="M40,0L0,20L40,40L40,0 z" :fill="color || '#000'"></path>
       </marker>
       <marker
         :id="`end-arrow${data.mid}`"
@@ -23,41 +23,36 @@
         markerHeight="6"
         orient="auto"
       >
-        <path d="M0,0L40,20L0,40L0,0 z" fill="#000"></path>
+        <path d="M0,0L40,20L0,40L0,0 z" :fill="color || '#000'"></path>
       </marker>
     </defs>
-    <path
-      class="o-line"
-      :d="getLinePath()"
-      stroke="#000"
-      stroke-dasharray="0"
-      stroke-width="5"
-      marker-start="none"
+    <line
+      stroke-width="2"
+      :stroke="color || '#000'"
+      :x1="data.position[0]"
+      :y1="data.position[1]"
+      :x2="data.position[2]"
+      :y2="data.position[3]"
+      :marker-start="data.isSingle ? '' : `url(#start-arrow${data.mid})`"
       :marker-end="`url(#end-arrow${data.mid})`"
-      fill="none"
-    ></path>
+    ></line>
   </g>
 </template>
 
 <script>
 export default {
-  name: 'Line',
+  name: 'MLine',
   props: {
     data: {
-      type: Object,
-      default: () => {}
+      type: Object | null,
+      default: null
     },
-    lockElement: {
-      type: Array,
-      default: () => []
+    color: {
+      type: String,
+      default: ''
     }
   },
-  methods: {
-    getLinePath() {
-      const [startX, startY, endX, endY, ..._ctrls] = this.data.position
-      return `M${startX} ${startY}C${_ctrls.join(' ')} ${endX} ${endY}`
-    }
-  }
+  methods: {}
 }
 </script>
 

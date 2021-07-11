@@ -12,12 +12,7 @@
       ></li>
       <li>{{ mode }}</li>
     </ul>
-    <MyElement
-      :elementList="elementList"
-      :lockElement="lockElement"
-      :mode.sync="mode"
-      @mode-switch="handleClickMode"
-    />
+    <MyElement :mode.sync="mode" @mode-switch="handleClickMode" />
   </div>
 </template>
 
@@ -26,10 +21,6 @@ import pointIcon from '../assets/pointIcon.svg'
 import pathIcon from '../assets/pathIcon.svg'
 import dPathIcon from '../assets/dPathIcon.svg'
 import resetIcon from '../assets/resetIcon.svg'
-import bus from '../utils/event.js'
-
-let osprey = null
-let canvas = null
 
 export default {
   data: () => ({
@@ -39,29 +30,11 @@ export default {
       { name: '线', mode: 2, active: false, icon: pathIcon },
       { name: '双', mode: 3, active: false, icon: dPathIcon },
       { name: '重置', mode: 0, active: true, icon: resetIcon }
-    ],
-    elementList: [],
-    lockElement: []
+    ]
   }),
-  mounted() {
-    bus.on('lock-element', (mid) => {
-      if (!mid) {
-        this.lockElement = []
-        return
-      }
-      if (this.mode === 1) {
-        this.lockElement.push(mid)
-        return
-      }
-      if (this.mode === 2) {
-        this.lockElement = [mid]
-        return
-      }
-    })
-  },
   methods: {
     handleClickMode(newMode) {
-      this.mode = newMode || 0
+      this.mode = newMode
       const list = this.menuList.map(({ mode, active, ...it }) => ({
         active: mode === newMode,
         mode,
