@@ -1,4 +1,4 @@
-import { uid } from "uid"
+import { uid } from "../utils"
 
 export default class Point {
     position: number[]
