@@ -4,8 +4,8 @@
     :cy="getPosition[1]"
     :r="data.radius || 10"
     :fill="isLock ? '#4269e1' : '#000'"
-    @mousedown.stop="handlePressdown"
-    @mouseup.stop="handlePressup"
+    @mousedown.left="handleMousePoint($event, true)"
+    @mouseup.left="handleMousePoint($event, false)"
   ></circle>
 </template>
 
@@ -28,11 +28,16 @@ export default {
     }
   },
   methods: {
-    handlePressdown() {
-      this.$emit('down-point', this.data.mid)
-    },
-    handlePressup() {
+    handleMousePoint(e, bool) {
+      if (bool) {
+        e.preventDefault()
+        e.stopPropagation()
+        this.$emit('down-point', this.data.mid)
+        return
+      }
+      console.log('end')
       this.$emit('up-point', null)
+      return
     }
   }
 }

@@ -62,8 +62,10 @@ export default {
     }
   },
   mounted() {
+    const dom = document.getElementById('canvas')
     osprey = new Osprey()
-    canvas = document.getElementById('canvas').getBoundingClientRect()
+    canvas = dom.getBoundingClientRect()
+    dom.focus()
   },
   methods: {
     initElement(list) {
@@ -72,6 +74,14 @@ export default {
     },
     handleClickElement(mid) {
       if (mid == null) {
+        if (this.mode == 0) {
+          this.lockElement = []
+        }
+        return
+      }
+      if (this.mode == 0) {
+        const data = osprey.findElement(mid)
+        this.lockElement = [data]
         return
       }
       if ([2, 3].includes(this.mode)) {
@@ -82,6 +92,8 @@ export default {
           const [lockElement] = this.lockElement
           const [startX, startY] = lockElement.position
           this.elementList = osprey.createElement({
+            startMid: lockElement.mid,
+            endMid: data.mid,
             position: [startX, startY, xc, yc],
             isSingle: singleHash.get(this.mode),
             type: typeHash.get(this.mode)
@@ -117,9 +129,10 @@ export default {
       // * 如果有选中元素，则移动元素的相关坐标
       const { left, top } = canvas
       const { clientX, clientY } = event
-      if (this.mode === 1) {
+      if (this.mode === 0) {
+        console.log('=>', this.lockElement)
         this.elementList = osprey.moveElement(
-          this.lockElement,
+          this.lockElement.map((it) => it.mid),
           ({ position, ...it }) => {
             return {
               position: [clientX - left, clientY - top],

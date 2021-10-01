@@ -1,3 +1,4 @@
+const _ = require('lodash')
 import Point from './elements/Point'
 import Line from './elements/Line'
 
@@ -46,12 +47,12 @@ class Osprey implements OspreyInterface {
         }
         if ([1, 2].includes(type)) {
             const line = new Line({ position, isSingle, type, startMid, endMid })
-            this.elementList.push(func ? func(line) : line)
+            this.elementList.unshift(func ? func(line) : line)
         }
         return JSON.parse(JSON.stringify(this.elementList))
     }
     moveElement(moveMid: string[], func): Element[] {
-        const list = this.elementList.map((it) => {
+        this.elementList = this.elementList.map((it) => {
             if (moveMid.includes(it.mid)) {
                 return func(it)
             }
@@ -59,13 +60,10 @@ class Osprey implements OspreyInterface {
         })
         moveMid.forEach(mid => {
             const { position } = this.findElement(mid)
-            list.forEach(it => {
-                if (it.type === 0) {
-                    return it
-                }
+            this.elementList.forEach(it => {
                 if (it.startMid === mid) {
                     const [a, b, ...end] = it.position
-                    it.position = [...position, end]
+                    it.position = [...position, ...end]
                 }
                 if (it.endMid === mid) {
                     const [x, y] = it.position
@@ -73,7 +71,6 @@ class Osprey implements OspreyInterface {
                 }
             })
         })
-        this.elementList = list
         return JSON.parse(JSON.stringify(this.elementList))
     }
     findElement(mid): Element {
@@ -84,18 +81,14 @@ class Osprey implements OspreyInterface {
         return JSON.parse(JSON.stringify(this.elementList))
     }
     setElement({ mid, ...item }): Element[] {
-        const list = this.elementList.map(it => {
-            return it.mid === mid ? Object.assign(it, { mid, ...item }) : it
-        })
+        const list = this.elementList.map(it => it.mid === mid ? _.merge(it, { mid, ...item }) : it
+        )
         this.elementList = list
         return JSON.parse(JSON.stringify(this.elementList))
     }
     removeElement({ mid }) {
         const list = this.elementList.filter(it => {
-            if (it.type == 0) {
-                return it.mid !== mid
-            }
-            return it.startMid !== mid && it.endMid !== mid
+            return it.mid !== mid && it.startMid !== mid && it.endMid !== mid
         })
         this.elementList = list
         return JSON.parse(JSON.stringify(this.elementList))
